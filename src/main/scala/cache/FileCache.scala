@@ -5,20 +5,22 @@ import org.json4s.native.JsonMethods.*
 
 import java.io.{File, PrintWriter}
 import scala.io.Source
-import scala.util.{Failure, Success, Try}
+import scala.util.{Failure, Success, Try, Using}
 
-class FileCache[K](cacheDirectory: String) extends Cache[K, JValue] {
+class FileCache(cacheDirectory: String) extends Cache[String, JValue] {
 
-  private def getFileName(key: K): String = s"$cacheDirectory/${key.toString}.json"
+  private def getFileName(key: String): String = s"$cacheDirectory/$key.json"
 
-  override def get(key: K): Option[JValue] = {
+  override def get(key: String): Option[JValue] = {
     val fileName = getFileName(key)
     val file = new File(fileName)
 
     if (file.exists()) {
       try {
-        val contents = Source.fromFile(file).mkString
-        Some(parse(contents))
+        Using(Source.fromFile(file)) { source =>
+          val jsonString = source.mkString
+          parse(jsonString)
+        }.toOption
       } catch {
         case e: Exception => None
       }
@@ -27,7 +29,7 @@ class FileCache[K](cacheDirectory: String) extends Cache[K, JValue] {
     }
   }
 
-  override def set(key: K, value: JValue): Try[Unit] = {
+  override def set(key: String, value: JValue): Try[Unit] = {
     val fileName = getFileName(key)
     val file = new File(fileName)
     val writer = new PrintWriter(file)
