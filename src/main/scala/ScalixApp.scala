@@ -1,26 +1,32 @@
+import cache.InMemoryCache
+import org.json4s.*
+import org.json4s.native.JsonMethods.*
+import org.json4s.{DefaultFormats, Formats, JInt, jvalue2extractable, jvalue2monadic}
+
+import scala.util.Using
 
 
-object ScalixApp extends App {
+object ScalixApp {
 
-  def main(args: Array[String]): Unit = {
-    println("Hello, Scalix!")
-  }
+  def main(args: Array[String]): Unit =
+    println(ScalixService.collaboration(("Tom", "Hanks"), ("Tom", "Cruise")))
 
-  def findActorId(firstname: String, lastname: String): Option[Int] = {
-    return None
-  }
-
-  def findActorMovies(actorId: Int): Set[(Int, String)] = {
-    return Set()
-  }
-
-  def findMovieDirector(movieId: Int): Option[(Int, String)] = {
-    return None
-  }
-
-  def collaboration(actor1: Fullname, actor2: Fullname): Set[(String, String)] = {
-    return Set()
-  }
+//    println(ScalixService.collaboration(("Robert", "De Niro"), ("Al", "Pacino")))
+//
+//    println(ScalixService.collaboration(("Tom", "Hanks"), ("Al", "Pacino")))
+//
+//    println(ScalixService.collaboration(("Tom", "Hanks"), ("Robert", "De Niro")))
+//
+//    println(ScalixService.collaboration(("Tom", "Hanks"), ("Tom", "Hanks")))
+//    println(ScalixService.collaboration(("Marlon", "Brando"), ("Denzel", "Washington")))
+//    println(ScalixService.collaboration(("Sydney", "Poitier"), ("Denzel", "Washington")))
+//    println(ScalixService.collaboration(("Ingrid", "Bergman"), ("Humphrey", "Bogart")))
+//    println(ScalixService.collaboration(("Kate", "Winslet"), ("Humphrey", "Bogart")))
+//    println(ScalixService.collaboration(("Leonardo", "Dicaprio"), ("Kate", "Winslet")))
+//    println(ScalixService.collaboration(("Meryl", "Streep"), ("Tom", "Hanks")))
+//    println(ScalixService.collaboration(("Meryl", "Streep"), ("Robert", "De Niro")))
+//    println(ScalixService.collaboration(("Meryl", "Streep"), ("Al", "Pacino")))
+//    println(ScalixService.collaboration(("Meryl", "Streep"), ("Meryl", "Streep")))
 
 
 

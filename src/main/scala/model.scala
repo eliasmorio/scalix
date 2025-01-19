@@ -1,5 +1,6 @@
 
+type ActorId = Int
+type MovieId = Int
+type FullName = (String, String)
 
-class Fullname(val firstname: String, val lastname: String) {
-  override def toString = s"$firstname $lastname"
-}
+type Id = ActorId | MovieId
