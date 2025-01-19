@@ -49,6 +49,31 @@ object ScalixService {
     }
   }
 
+  def mostFrequentCollaborations(): List[((String, String), Int)] = {
+    val actorNames = actorIdCache.cache.keys.toList
+
+    val moviesByActor = actorNames.flatMap { case (firstname, lastname) =>
+      findActorId(firstname, lastname).map { id =>
+        ((firstname, lastname), findActorMovies(id).map(_._1))
+      }
+    }.toMap
+
+    val pairs = for {
+      (actor1, movies1) <- moviesByActor
+      (actor2, movies2) <- moviesByActor
+      if actor1 != actor2 && moviesByActor.keys.toList.indexOf(actor1) < moviesByActor.keys.toList.indexOf(actor2)
+    } yield (actor1, actor2, movies1.intersect(movies2).size)
+
+    pairs
+      .filter { case (_, _, count) => count > 0 }
+      .toList
+      .map { case ((firstname1, lastname1), (firstname2, lastname2), count) =>
+        ((s"$firstname1 $lastname1", s"$firstname2 $lastname2"), count)
+      }
+      .sortBy { case (_, count) => -count }
+  }
+
+
   private def extractActorId(bodyResult: JValue): Option[ActorId] = {
     ((bodyResult \ "results")(0) \ "id").extractOpt[Int]
   }

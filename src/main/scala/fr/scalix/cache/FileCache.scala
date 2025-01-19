@@ -47,4 +47,14 @@ class FileCache extends Cache[String, JValue] {
       writer.close()
     }
   }
+
+  override def keys: Set[String] = {
+    val directory = new File(Settings.Cache.cacheDirectory)
+    if (directory.exists()) {
+      directory.listFiles().map(_.getName).toSet
+    } else {
+      Set.empty
+    }
+  }
+
 }

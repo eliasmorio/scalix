@@ -29,6 +29,8 @@ object ScalixApp {
     println(ScalixService.collaboration(("Meryl", "Streep"), ("Al", "Pacino")))
     println(ScalixService.collaboration(("Meryl", "Streep"), ("Meryl", "Streep")))
 
+    println(ScalixService.mostFrequentCollaborations())
+
 
 
 }

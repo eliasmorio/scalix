@@ -11,4 +11,7 @@ class MemoryCache[K, V] extends Cache[K, V] {
     cache += (key -> value)
     Try(())
   }
+
+  def keys: Set[K] = cache.keySet
+  def values: Set[V] = cache.values.toSet
 }
