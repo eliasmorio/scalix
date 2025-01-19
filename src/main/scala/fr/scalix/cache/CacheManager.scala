@@ -1,6 +1,6 @@
 package fr.scalix.cache
 
-class CacheService[K, V] (cache: Cache[K, V]) {
+class CacheManager[K, V](cache: Cache[K, V]) {
 
   def getOrFetch(key: K)(fetchFunc: => V): V =
     cache.get(key).getOrElse {

@@ -1,15 +1,15 @@
 package fr.scalix
 
-import fr.scalix.cache.{CacheService, InMemoryCache}
+import fr.scalix.cache.{CacheManager, MemoryCache}
 import org.json4s.native.JsonMethods.*
 import org.json4s.*
 
 
 object ScalixService {
   implicit val formats: DefaultFormats.type = DefaultFormats
-  private val actorIdCache = new CacheService[(String, String), Int](new InMemoryCache)
-  private val actorMoviesCache = new CacheService[Int, Set[(Int, String)]](new InMemoryCache)
-  private val movieDirectorCache = new CacheService[Int, Option[(Int, String)]](new InMemoryCache)
+  private val actorIdCache = new CacheManager[(String, String), Int](new MemoryCache)
+  private val actorMoviesCache = new CacheManager[Int, Set[(Int, String)]](new MemoryCache)
+  private val movieDirectorCache = new CacheManager[Int, Option[(Int, String)]](new MemoryCache)
 
   def findActorId(firstname: String, lastname: String): Option[ActorId] =
     actorIdCache.getOrFetchOption((firstname, lastname)) {

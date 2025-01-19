@@ -1,6 +1,6 @@
 package fr.scalix
 
-import fr.scalix.cache.{Cache, FileCache, InMemoryCache}
+import fr.scalix.cache.{Cache, CacheManager, FileCache, MemoryCache}
 import org.json4s.*
 import org.json4s.native.JsonMethods.*
 import sttp.client4.{DefaultSyncBackend, UriContext, basicRequest}
@@ -11,8 +11,8 @@ object TMDBClient {
   private val API_KEY = Settings.TMDB.apiKey
   private val backend = DefaultSyncBackend()
 
-  private val creditsFileCache = new FileCache()
-  private val actorIdCache = new InMemoryCache[(String, String), Int]
+  private val creditsFileCache = new CacheManager[String, JValue](new FileCache())
+  private val actorIdCache = new MemoryCache[(String, String), Int]
 
   private def fetchApi(endpoint: String): JValue = {
     val url = s"$BASE_URL$endpoint"
@@ -31,34 +31,20 @@ object TMDBClient {
     }
   }
 
-  private def fetchWithCache[K, V](cache: Cache[K, V], key: K, fetchFunc: => V): V = {
-    cache.get(key) match {
-      case Some(value) => value
-      case None =>
-        val result = fetchFunc
-        cache.set(key, result)
-        result
-    }
-  }
-
   def searchPerson(query: String): JValue = {
     fetchApi(s"3/search/person?query=$query")
   }
 
   def getPersonMovieCredits(actorId: Int): JValue = {
-    fetchWithCache(
-      creditsFileCache,
-      s"actor$actorId",
+    creditsFileCache.getOrFetch(s"actor$actorId") {
       fetchApi(s"3/person/$actorId/movie_credits")
-    )
+    }
   }
 
   def getMovieCredits(movieId: Int): JValue = {
-    fetchWithCache(
-      creditsFileCache,
-      s"movie$movieId",
+    creditsFileCache.getOrFetch(s"movie$movieId") {
       fetchApi(s"3/movie/$movieId/credits")
-    )
+    }
   }
 
 }
