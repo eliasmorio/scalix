@@ -1,3 +1,5 @@
+package fr.scalix
+
 
 type ActorId = Int
 type MovieId = Int

@@ -1,7 +1,8 @@
-import cache.{CacheService, InMemoryCache}
-import org.json4s.*
+package fr.scalix
+
+import fr.scalix.cache.{CacheService, InMemoryCache}
 import org.json4s.native.JsonMethods.*
-import org.json4s.{DefaultFormats, Formats, JInt, jvalue2extractable, jvalue2monadic}
+import org.json4s.*
 
 
 object ScalixService {

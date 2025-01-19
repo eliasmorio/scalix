@@ -1,4 +1,4 @@
-package cache
+package fr.scalix.cache
 
 import scala.util.Try
 

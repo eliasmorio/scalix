@@ -1,4 +1,4 @@
-package cache
+package fr.scalix.cache
 
 class CacheService[K, V] (cache: Cache[K, V]) {
 

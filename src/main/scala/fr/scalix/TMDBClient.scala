@@ -1,12 +1,14 @@
-import cache.{Cache, FileCache, InMemoryCache}
+package fr.scalix
+
+import fr.scalix.cache.{Cache, FileCache, InMemoryCache}
 import org.json4s.*
 import org.json4s.native.JsonMethods.*
 import sttp.client4.{DefaultSyncBackend, UriContext, basicRequest}
 import sttp.model.StatusCode
 
 object TMDBClient {
-  private val BASE_URL = "https://api.themoviedb.org/"
-  private val API_KEY = ""
+  private val BASE_URL = Settings.TMDB.baseUrl
+  private val API_KEY = Settings.TMDB.apiKey
   private val backend = DefaultSyncBackend()
 
   private val creditsFileCache = new FileCache()

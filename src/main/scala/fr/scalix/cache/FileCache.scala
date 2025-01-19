@@ -1,5 +1,6 @@
-package cache
+package fr.scalix.cache
 
+import fr.scalix.Settings
 import org.json4s.*
 import org.json4s.native.JsonMethods.*
 
@@ -7,8 +8,12 @@ import java.io.{File, PrintWriter}
 import scala.io.Source
 import scala.util.{Failure, Success, Try, Using}
 
-class FileCache(cacheDirectory: String = "./cache") extends Cache[String, JValue] {
-  private def getFileName(key: String): String = s"$cacheDirectory/$key.json"
+
+class FileCache extends Cache[String, JValue] {
+
+  private def getFileName(key: String): String = {
+    s"${Settings.Cache.cacheDirectory}/$key.json"
+  }
 
   override def get(key: String): Option[JValue] = {
     val fileName = getFileName(key)
