@@ -1,7 +1,7 @@
 
 # SCALIX
 
-Lilian FERRETTI, Elias MORIO
+Elias MORIO
 
 Utilisation IA : Oui
 
